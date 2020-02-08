@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSpeed: 0.5
-  rotateSpeed: 0.05
+  rotateSpeed: 0.1
 --- !u!4 &77825277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: d4ca6cef586984ab498bfcb629508bb2,
@@ -967,9 +967,9 @@ Light:
   serializedVersion: 9
   m_Type: 0
   m_Color: {r: 1, g: 0.98926836, b: 0.5424528, a: 1}
-  m_Intensity: 1
-  m_Range: 25
-  m_SpotAngle: 74
+  m_Intensity: 3.01
+  m_Range: 30
+  m_SpotAngle: 79
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
