@@ -53,8 +53,23 @@ public class MapChunk
         meshFilter.mesh = mesh;
     }
 
-    public void updatePosition(Vector3 newPos)
+    public void UpdatePosition(Vector3 newPos)
     {
         obj.transform.position = newPos;
+    }
+
+    public void Hide()
+    {
+        obj.SetActive(false);
+    }
+
+    public void Show()
+    {
+        obj.SetActive(true);
+    }
+
+    public bool IsHidden()
+    {
+        return obj.activeSelf;
     }
 }
