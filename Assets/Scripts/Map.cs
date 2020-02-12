@@ -6,32 +6,27 @@ public class Map : MonoBehaviour
 {
 
     public GameObject player;
+    public Material mapMaterial;
 
     private MapChunk chunk;
 
     // Start is called before the first frame update
     void Start()
     {
-        chunk = new MapChunk(10, 10);
-
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-
-        meshFilter.mesh = chunk.mesh;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        chunk = new MapChunk(10, 10, mapMaterial);
     }
 }
 
 public class MapChunk
 {
     private float width, height;
-    public Mesh mesh;
+    private Mesh mesh;
+    private GameObject obj;
+    private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
 
-    public MapChunk(float width, float height)
+
+    public MapChunk(float width, float height, Material mat)
     {
         this.width = width;
         this.height = height;
@@ -48,6 +43,18 @@ public class MapChunk
         mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+
+        obj = new GameObject();
+
+        meshRenderer = obj.AddComponent<MeshRenderer>();
+        meshRenderer.material = mat;
+
+        meshFilter = obj.AddComponent<MeshFilter>();
+        meshFilter.mesh = mesh;
     }
 
+    public void updatePosition(Vector3 newPos)
+    {
+        obj.transform.position = newPos;
+    }
 }
