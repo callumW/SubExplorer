@@ -5,15 +5,34 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
 
+    private const float CHUNK_DIM = 10;
+
     public GameObject player;
     public Material mapMaterial;
 
-    private MapChunk chunk;
+    public int width;
+    public int height;
+
+    private MapChunk[,] chunks;
 
     // Start is called before the first frame update
     void Start()
     {
-        chunk = new MapChunk(10, 10, mapMaterial);
+        chunks = new MapChunk[width, height];
+
+        float xOffset = 0 - ((width - 1) * CHUNK_DIM) / 2;
+        float zOffset = 0 - ((height - 1) * CHUNK_DIM) / 2;
+
+        for (int x = 0; x < width; x++) {
+            for (int z = 0; z < height; z++) {
+                chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, mapMaterial);
+
+                float xPos = ((float)(x * CHUNK_DIM)) + xOffset;
+                float zPos = ((float)(z * CHUNK_DIM)) + zOffset;
+
+                chunks[x,z].UpdatePosition(new Vector3(xPos, 0, zPos));
+            }
+        }
     }
 }
 
