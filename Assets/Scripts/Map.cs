@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Map : MonoBehaviour
 {
@@ -9,9 +10,13 @@ public class Map : MonoBehaviour
 
     public GameObject player;
     public Material mapMaterial;
+    public Material originMaterial;
 
     public int width;
     public int height;
+
+    private float xOffset;
+    private float zOffset;
 
     private MapChunk[,] chunks;
 
@@ -20,18 +25,41 @@ public class Map : MonoBehaviour
     {
         chunks = new MapChunk[width, height];
 
-        float xOffset = 0 - ((width - 1) * CHUNK_DIM) / 2;
-        float zOffset = 0 - ((height - 1) * CHUNK_DIM) / 2;
+        xOffset = 0 - ((width - 1) * CHUNK_DIM) / 2;
+        zOffset = 0 - ((height - 1) * CHUNK_DIM) / 2;
 
         for (int x = 0; x < width; x++) {
             for (int z = 0; z < height; z++) {
-                chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, mapMaterial);
+                if (x == 0 && z == 0) {
+                    chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, originMaterial);
+                }
+                else {
+                    chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, mapMaterial);
+                }
 
                 float xPos = ((float)(x * CHUNK_DIM)) + xOffset;
                 float zPos = ((float)(z * CHUNK_DIM)) + zOffset;
 
                 chunks[x,z].UpdatePosition(new Vector3(xPos, 0, zPos));
             }
+        }
+    }
+
+    void LateUpdate()
+    {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                chunks[x, y].Hide();
+            }
+        }
+
+        int xIndex = (int) Math.Round((player.transform.position.x - xOffset) / CHUNK_DIM);
+        int yIndex = (int) Math.Round((player.transform.position.z - zOffset) / CHUNK_DIM);
+
+        Debug.Log("player above (" + xIndex + ", " + yIndex + ")");
+
+        if (xIndex >= 0 && xIndex < width && yIndex >= 0 && yIndex < height) {
+            chunks[xIndex,yIndex].Show();
         }
     }
 }
