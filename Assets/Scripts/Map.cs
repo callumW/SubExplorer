@@ -15,6 +15,8 @@ public class Map : MonoBehaviour
     public int width;
     public int height;
 
+    public int viewAreaRadius;
+
     private float xOffset;
     private float zOffset;
 
@@ -56,11 +58,39 @@ public class Map : MonoBehaviour
         int xIndex = (int) Math.Round((player.transform.position.x - xOffset) / CHUNK_DIM);
         int yIndex = (int) Math.Round((player.transform.position.z - zOffset) / CHUNK_DIM);
 
-        Debug.Log("player above (" + xIndex + ", " + yIndex + ")");
-
         if (xIndex >= 0 && xIndex < width && yIndex >= 0 && yIndex < height) {
-            chunks[xIndex,yIndex].Show();
+            ShowChunksAround(xIndex, yIndex);
         }
+    }
+
+    void ShowChunksAround(int xIndex, int yIndex)
+    {
+        int minX = xIndex - viewAreaRadius;
+        if (minX < 0) {
+            minX = 0;
+        }
+
+        int maxX = xIndex + viewAreaRadius;
+        if (maxX >= width) {
+            maxX = width - 1;
+        }
+
+        int minY = yIndex - viewAreaRadius;
+        if (minY < 0) {
+            minY = 0;
+        }
+
+        int maxY = yIndex + viewAreaRadius;
+        if (maxY >= height) {
+            maxY = height - 1;
+        }
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                chunks[x, y].Show();
+            }
+        }
+
     }
 }
 

@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSpeed: 0.5
-  rotateSpeed: 0.1
+  rotateSpeed: 0.3
 --- !u!4 &77825277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: d4ca6cef586984ab498bfcb629508bb2,
@@ -487,8 +487,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 77825274}
   mapMaterial: {fileID: 2100000, guid: 2a8e58ae37c664004916083f4a7410d2, type: 2}
-  width: 5
-  height: 5
+  originMaterial: {fileID: 2100000, guid: 9e3430573857b4274be171a203e03165, type: 2}
+  width: 200
+  height: 200
+  viewAreaRadius: 8
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,7 +880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObject: {fileID: 77825277}
-  smoothTime: 0.5
+  smoothTime: 0
   offset: {x: 0, y: 3.28, z: -9.14}
 --- !u!1 &1186963680
 GameObject:
