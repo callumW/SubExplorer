@@ -48,17 +48,17 @@ public class Map : MonoBehaviour
                 uint startX = x * (uint) CHUNK_DIM;
                 uint startY = y * (uint) CHUNK_DIM;
 
-                uint meshWidth = (uint) CHUNK_DIM;
-                uint meshHeight = (uint) CHUNK_DIM;
+                uint meshWidth = (uint) CHUNK_DIM + 1;
+                uint meshHeight = (uint) CHUNK_DIM + 1;
 
                 if (startX > 0) {   // Make meshes meet
                     startX--;
-                    meshWidth++;
+                    //meshWidth++;
                 }
 
                 if (startY > 0) {
                     startY--;
-                    meshHeight++;
+                    //meshHeight++;
                 }
 
                 chunks[x,y] = new MapChunk(data, startX, startY, meshWidth, meshHeight, mapMaterial);

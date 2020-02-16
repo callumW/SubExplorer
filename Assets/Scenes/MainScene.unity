@@ -506,6 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 200
   height: 200
+  noiseScale: 2.5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,7 +1077,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: -2.4740006e+35, z: 1568481.6, w: 88933.37}
+  m_BoundingSphereOverride: {x: 0, y: 1.02e-43, z: 0, w: 3.0391983e+15}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
