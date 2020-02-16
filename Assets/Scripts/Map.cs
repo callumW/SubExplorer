@@ -51,7 +51,7 @@ public class Map : MonoBehaviour
                 uint meshWidth = (uint) CHUNK_DIM;
                 uint meshHeight = (uint) CHUNK_DIM;
 
-                if (startX > 0) {
+                if (startX > 0) {   // Make meshes meet
                     startX--;
                     meshWidth++;
                 }
