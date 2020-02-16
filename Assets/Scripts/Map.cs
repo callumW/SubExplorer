@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[ExecuteInEditMode]
 public class Map : MonoBehaviour
 {
 
@@ -45,7 +44,24 @@ public class Map : MonoBehaviour
         // 2. iterate over chunks and create MapChunk from it.
         for (uint x = 0; x < widthInChunks; x++) {
             for (uint y = 0; y < heightInChunks; y++) {
-                chunks[x,y] = new MapChunk(data, x * (uint) CHUNK_DIM, y * (uint) CHUNK_DIM, (uint) CHUNK_DIM, (uint) CHUNK_DIM, mapMaterial);
+
+                uint startX = x * (uint) CHUNK_DIM;
+                uint startY = y * (uint) CHUNK_DIM;
+
+                uint meshWidth = (uint) CHUNK_DIM;
+                uint meshHeight = (uint) CHUNK_DIM;
+
+                if (startX > 0) {
+                    startX--;
+                    meshWidth++;
+                }
+
+                if (startY > 0) {
+                    startY--;
+                    meshHeight++;
+                }
+
+                chunks[x,y] = new MapChunk(data, startX, startY, meshWidth, meshHeight, mapMaterial);
 
                 float xPos = ((float)(x * CHUNK_DIM)) + xOffset;
                 float zPos = ((float)(y * CHUNK_DIM)) + zOffset;
@@ -55,26 +71,6 @@ public class Map : MonoBehaviour
                 Debug.Log("adding chunk to: (" + x + ", " + y + ")");
             }
         }
-
-        // chunks = new MapChunk[width, height];
-
-
-
-        // for (int x = 0; x < width; x++) {
-        //     for (int z = 0; z < height; z++) {
-        //         if (x == 0 && z == 0) {
-        //             chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, originMaterial);
-        //         }
-        //         else {
-        //             chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, mapMaterial);
-        //         }
-        //
-        //         float xPos = ((float)(x * CHUNK_DIM)) + xOffset;
-        //         float zPos = ((float)(z * CHUNK_DIM)) + zOffset;
-        //
-        //         chunks[x,z].UpdatePosition(new Vector3(xPos, 0, zPos));
-        //     }
-        // }
     }
 
     void LateUpdate()
