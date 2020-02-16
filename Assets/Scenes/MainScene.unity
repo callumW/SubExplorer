@@ -452,6 +452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 639260983}
   - component: {fileID: 639260984}
+  - component: {fileID: 639260985}
   m_Layer: 0
   m_Name: MapRoot
   m_TagString: Untagged
@@ -491,6 +492,20 @@ MonoBehaviour:
   width: 200
   height: 200
   viewAreaRadius: 8
+--- !u!114 &639260985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639260982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5ad1d96c6154ac8802e640d495bdc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 200
+  height: 200
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

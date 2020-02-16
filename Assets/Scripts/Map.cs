@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[ExecuteInEditMode]
 public class Map : MonoBehaviour
 {
 
@@ -20,37 +21,66 @@ public class Map : MonoBehaviour
     private float xOffset;
     private float zOffset;
 
+    private uint widthInChunks;
+    private uint heightInChunks;
+
     private MapChunk[,] chunks;
 
     // Start is called before the first frame update
     void Start()
     {
-        chunks = new MapChunk[width, height];
+        TerrainGenerator gen = GetComponent<TerrainGenerator>();
 
-        xOffset = 0 - ((width - 1) * CHUNK_DIM) / 2;
-        zOffset = 0 - ((height - 1) * CHUNK_DIM) / 2;
+        float[,] data = gen.GenerateHeightmap();
 
-        for (int x = 0; x < width; x++) {
-            for (int z = 0; z < height; z++) {
-                if (x == 0 && z == 0) {
-                    chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, originMaterial);
-                }
-                else {
-                    chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, mapMaterial);
-                }
+        // 1. Work out chunk size
+        widthInChunks = (uint) data.GetLength(0) / (uint) CHUNK_DIM;
+        heightInChunks = (uint) data.GetLength(1) / (uint) CHUNK_DIM;
+
+        chunks = new MapChunk[widthInChunks, heightInChunks];
+
+        xOffset = 0 - ((widthInChunks - 1) * CHUNK_DIM) / 2;
+        zOffset = 0 - ((heightInChunks - 1) * CHUNK_DIM) / 2;
+
+        // 2. iterate over chunks and create MapChunk from it.
+        for (uint x = 0; x < widthInChunks; x++) {
+            for (uint y = 0; y < heightInChunks; y++) {
+                chunks[x,y] = new MapChunk(data, x * (uint) CHUNK_DIM, y * (uint) CHUNK_DIM, (uint) CHUNK_DIM, (uint) CHUNK_DIM, mapMaterial);
 
                 float xPos = ((float)(x * CHUNK_DIM)) + xOffset;
-                float zPos = ((float)(z * CHUNK_DIM)) + zOffset;
+                float zPos = ((float)(y * CHUNK_DIM)) + zOffset;
 
-                chunks[x,z].UpdatePosition(new Vector3(xPos, 0, zPos));
+                chunks[x,y].UpdatePosition(new Vector3(xPos, 0, zPos));
+
+                Debug.Log("adding chunk to: (" + x + ", " + y + ")");
             }
         }
+
+        // chunks = new MapChunk[width, height];
+
+
+
+        // for (int x = 0; x < width; x++) {
+        //     for (int z = 0; z < height; z++) {
+        //         if (x == 0 && z == 0) {
+        //             chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, originMaterial);
+        //         }
+        //         else {
+        //             chunks[x,z] = new MapChunk(CHUNK_DIM, CHUNK_DIM, mapMaterial);
+        //         }
+        //
+        //         float xPos = ((float)(x * CHUNK_DIM)) + xOffset;
+        //         float zPos = ((float)(z * CHUNK_DIM)) + zOffset;
+        //
+        //         chunks[x,z].UpdatePosition(new Vector3(xPos, 0, zPos));
+        //     }
+        // }
     }
 
     void LateUpdate()
     {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        for (int x = 0; x < widthInChunks; x++) {
+            for (int y = 0; y < heightInChunks; y++) {
                 chunks[x, y].Hide();
             }
         }
@@ -58,7 +88,7 @@ public class Map : MonoBehaviour
         int xIndex = (int) Math.Round((player.transform.position.x - xOffset) / CHUNK_DIM);
         int yIndex = (int) Math.Round((player.transform.position.z - zOffset) / CHUNK_DIM);
 
-        if (xIndex >= 0 && xIndex < width && yIndex >= 0 && yIndex < height) {
+        if (xIndex >= 0 && xIndex < widthInChunks && yIndex >= 0 && yIndex < heightInChunks) {
             ShowChunksAround(xIndex, yIndex);
         }
     }
@@ -71,8 +101,8 @@ public class Map : MonoBehaviour
         }
 
         int maxX = xIndex + viewAreaRadius;
-        if (maxX >= width) {
-            maxX = width - 1;
+        if (maxX >= widthInChunks) {
+            maxX = (int) widthInChunks - 1;
         }
 
         int minY = yIndex - viewAreaRadius;
@@ -81,8 +111,8 @@ public class Map : MonoBehaviour
         }
 
         int maxY = yIndex + viewAreaRadius;
-        if (maxY >= height) {
-            maxY = height - 1;
+        if (maxY >= heightInChunks) {
+            maxY = (int) heightInChunks - 1;
         }
 
         for (int x = minX; x <= maxX; x++) {
@@ -128,6 +158,55 @@ public class MapChunk
 
         meshFilter = obj.AddComponent<MeshFilter>();
         meshFilter.mesh = mesh;
+    }
+
+    public MapChunk(float[,] data, uint xStart, uint yStart, uint width, uint height, Material mat)
+    {
+
+        float topLeftX = (width - 1) / -2f;
+        float topLeftZ = (width - 1) / -2f;
+
+        Vector3[] vertices = new Vector3[width * height];
+        int[] triangles = new int[(width-1) * (height-1) * 6];
+
+        int verticesPerLine = (int) width - 1;
+
+        uint triangleIndex = 0;
+        uint vertexIndex = 0;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                vertices[x * height + y] = new Vector3(x + topLeftX, data[x + xStart, y + yStart], y - topLeftZ);
+
+                if (x < width - 1 && y < height - 1) {
+                    triangles[triangleIndex] = (int) vertexIndex;
+                    triangles[triangleIndex+1] = (int) vertexIndex+verticesPerLine+1;
+                    triangles[triangleIndex+2] = (int) vertexIndex+verticesPerLine;
+
+                    triangleIndex += 3;
+
+                    triangles[triangleIndex] = (int) vertexIndex+verticesPerLine+1;
+                    triangles[triangleIndex+1] = (int) vertexIndex;
+                    triangles[triangleIndex+2] = (int) vertexIndex+1;
+
+                    triangleIndex += 3;
+                }
+
+                vertexIndex++;
+            }
+        }
+
+        mesh = new Mesh();
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+
+        obj = new GameObject();
+
+        meshRenderer = obj.AddComponent<MeshRenderer>();
+        meshRenderer.material = mat;
+
+        meshFilter = obj.AddComponent<MeshFilter>();
+        meshFilter.mesh = mesh;
+
     }
 
     public void UpdatePosition(Vector3 newPos)
