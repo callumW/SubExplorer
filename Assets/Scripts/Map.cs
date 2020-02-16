@@ -178,15 +178,15 @@ public class MapChunk
                 vertices[x * height + y] = new Vector3(x + topLeftX, data[x + xStart, y + yStart], y - topLeftZ);
 
                 if (x < width - 1 && y < height - 1) {
-                    triangles[triangleIndex] = (int) vertexIndex;
-                    triangles[triangleIndex+1] = (int) vertexIndex+verticesPerLine+1;
-                    triangles[triangleIndex+2] = (int) vertexIndex+verticesPerLine;
+                    triangles[triangleIndex] = (int) (x * height + (y + 1));
+                    triangles[triangleIndex+1] = (int) ((x + 1) * height + (y + 1));
+                    triangles[triangleIndex+2] = (int) (x * height + y);
 
                     triangleIndex += 3;
 
-                    triangles[triangleIndex] = (int) vertexIndex+verticesPerLine+1;
-                    triangles[triangleIndex+1] = (int) vertexIndex;
-                    triangles[triangleIndex+2] = (int) vertexIndex+1;
+                    triangles[triangleIndex] = (int) ((x + 1) * height + (y + 1));
+                    triangles[triangleIndex+1] = (int) ((x + 1) * height + y);
+                    triangles[triangleIndex+2] = (int) (x * height + y);
 
                     triangleIndex += 3;
                 }
