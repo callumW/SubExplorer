@@ -506,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 200
   height: 200
-  noiseScale: 2.5
+  noiseScale: 0.17
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,13 +1014,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215444449}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.18816851, y: -0, z: -0, w: 0.98213685}
   m_LocalPosition: {x: 0, y: 0, z: 3.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 77825277}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 21.692001, y: 0, z: 0}
 --- !u!108 &1215444451
 Light:
   m_ObjectHideFlags: 0
@@ -1077,7 +1077,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 1.02e-43, z: 0, w: 3.0391983e+15}
+  m_BoundingSphereOverride: {x: NaN, y: 10.5323105, z: 6.861719, w: -8.8285475}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0

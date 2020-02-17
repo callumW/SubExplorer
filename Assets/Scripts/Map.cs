@@ -127,6 +127,7 @@ public class MapChunk
     private GameObject obj;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
+    private MeshCollider meshCollider;
 
 
     public MapChunk(float width, float height, Material mat)
@@ -154,6 +155,9 @@ public class MapChunk
 
         meshFilter = obj.AddComponent<MeshFilter>();
         meshFilter.mesh = mesh;
+
+        meshCollider = obj.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = mesh;
     }
 
     public MapChunk(float[,] data, uint xStart, uint yStart, uint width, uint height, Material mat)
@@ -202,6 +206,9 @@ public class MapChunk
 
         meshFilter = obj.AddComponent<MeshFilter>();
         meshFilter.mesh = mesh;
+
+        meshCollider = obj.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = mesh;
 
     }
 
