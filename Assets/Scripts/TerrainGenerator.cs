@@ -8,7 +8,7 @@ public class TerrainGenerator : MonoBehaviour
     public uint height;
 
     public float noiseScale;
-
+    public float stepScale;
 
     public float[,] GenerateHeightmap()
     {
@@ -16,7 +16,7 @@ public class TerrainGenerator : MonoBehaviour
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                terrainData[x,y] = Mathf.PerlinNoise(x * noiseScale, y * noiseScale);
+                terrainData[x,y] = noiseScale * Mathf.PerlinNoise(x * stepScale, y * stepScale);
 
                 Debug.Log("(" + x + "," + y + ")height: " + terrainData[x,y]);
             }
