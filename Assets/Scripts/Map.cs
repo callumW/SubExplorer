@@ -12,9 +12,6 @@ public class Map : MonoBehaviour
     public Material mapMaterial;
     public Material originMaterial;
 
-    public int width;
-    public int height;
-
     public int viewAreaRadius;
 
     private float xOffset;
