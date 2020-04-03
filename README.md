@@ -1,4 +1,4 @@
-# SubExplorer
+# SubExplorer (Experiment)
 3D Submarine Exploration game written in Unity
 
 ## Copyright
