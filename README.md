@@ -11,6 +11,11 @@ at which they can dock and explore to find upgrades and Story fragments.
 
 The player is trying to fix up their submarine so they can explore the deeper waters?
 
+## Current State
+At the moment you can float around a little procedural map with a station in it.
+
+![game screenshot](screenshots/screenshot1.png)
+
 ## Game Mechanics
 * Docking To stations
 * First Person Exploration of stations
