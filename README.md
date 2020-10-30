@@ -16,7 +16,7 @@ At the moment you can float around a little procedural map with a station in it.
 
 ![game screenshot](screenshots/screenshot1.png)
 
-## Game Mechanics
+## Game Mechanics (Not implemented yet)
 * Docking To stations
 * First Person Exploration of stations
 * Submarine Combat (Pirates? Secret Organisations?)
